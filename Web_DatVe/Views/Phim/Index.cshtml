@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Web_DatVe.Models.PHIM>
+@using System
+@using System.Collections.Generic
+@using System.Linq
+@{
+    ViewBag.Title = "Danh sách phim";
+
+    // Ép kiểu an toàn, tránh NullReference nếu ViewBag chưa được gán
+    IEnumerable<string> theLoaiList = ViewBag.TheLoaiList as IEnumerable<string> ?? Enumerable.Empty<string>();
+    IEnumerable<int> namList = ViewBag.NamList as IEnumerable<int> ?? Enumerable.Empty<int>();
+    IEnumerable<string> quocGiaList = ViewBag.QuocGiaList as IEnumerable<string> ?? Enumerable.Empty<string>();
+}
+
+<h2 class="mb-3">Phim đang chiếu & sắp chiếu</h2>
+
+<!-- BỘ LỌC PHIM -->
+<div class="filter-box p-3 mb-4">
+    <form method="get" class="row g-3">
+
+        <!-- Thể loại -->
+        <div class="col-md-4">
+            <label>Thể loại</label>
+            <select name="theloai" class="form-select">
+                <option value="">Tất cả</option>
+                @foreach (var tl in theLoaiList)
+                {
+                    var isSelected = string.Equals(Request["theloai"], tl as string, StringComparison.OrdinalIgnoreCase);
+                    <option value="@tl" @(isSelected ? "selected=\"selected\"" : "")>@tl</option>
+                }
+            </select>
+        </div>
+
+        <!-- Năm -->
+        <div class="col-md-4">
+            <label>Năm</label>
+            <select name="nam" class="form-select">
+                <option value="">Tất cả</option>
+                @foreach (var year in namList)
+                {
+                    var isSelected = string.Equals(Request["nam"], year.ToString(), StringComparison.OrdinalIgnoreCase);
+                    <option value="@year" @(isSelected ? "selected=\"selected\"" : "")>@year</option>
+                }
+            </select>
+        </div>
+
+        <!-- Quốc gia -->
+        <div class="col-md-4">
+            <label>Quốc gia</label>
+            <select name="quocgia" class="form-select">
+                <option value="">Tất cả</option>
+                @foreach (var qg in quocGiaList)
+                {
+                    var isSelected = string.Equals(Request["quocgia"], qg as string, StringComparison.OrdinalIgnoreCase);
+                    <option value="@qg" @(isSelected ? "selected=\"selected\"" : "")>@qg</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-12 text-end">
+            <button class="btn btn-danger px-4">Lọc phim</button>
+        </div>
+
+    </form>
+</div>
+
+<!-- DANH SÁCH PHIM -->
+<div class="movie-grid">
+    @foreach (var p in Model)
+    {
+        <div class="movie-card">
+            <img src="@Url.Content("~/Content/images/" + p.Poster)" alt="@p.TenPhim" />
+            <div class="movie-info">
+                <h5>@p.TenPhim</h5>
+                <a href="/Phim/ChiTiet/@p.MaPhim" class="btn-book">Xem chi tiết</a>
+            </div>
+        </div>
+    }
+</div>

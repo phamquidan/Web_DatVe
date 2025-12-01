@@ -1,0 +1,53 @@
+﻿@model Web_DatVe.Models.NGUOIDUNG
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+}
+
+<h2 class="mb-4">Thông tin cá nhân</h2>
+
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+
+<form method="post" class="w-50">
+
+    <input type="hidden" name="MaND" value="@Model.MaND" />
+
+    <div class="mb-3">
+        <label>Họ tên</label>
+        <input type="text" class="form-control" name="HoTen" value="@Model.HoTen" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" class="form-control" name="Email" value="@Model.Email" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Số điện thoại</label>
+        <input type="text" class="form-control" name="SoDienThoai" value="@Model.SoDienThoai" />
+    </div>
+
+    <div class="mb-3">
+        <label>Ngày sinh</label>
+        <input type="date" class="form-control" name="NgaySinh"
+               value="@(Model.NgaySinh?.ToString("yyyy-MM-dd"))" />
+    </div>
+
+    <div class="mb-3">
+        <label>Giới tính</label>
+        <select class="form-select" name="GioiTinh">
+            <option value="Nam" @(Model.GioiTinh == "Nam" ? "selected" : "")>Nam</option>
+            <option value="Nữ" @(Model.GioiTinh == "Nữ" ? "selected" : "")>Nữ</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Địa chỉ</label>
+        <input type="text" class="form-control" name="DiaChi" value="@Model.DiaChi" />
+    </div>
+
+    <button class="btn btn-danger px-4">Cập nhật</button>
+
+</form>

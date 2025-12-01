@@ -1,0 +1,37 @@
+﻿@model Web_DatVe.Models.PHIM
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Sửa phim</h2>
+    <a href="/Admin/Phim" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Quay lại
+    </a>
+</div>
+
+<form method="post" class="w-50">
+
+    <input type="hidden" name="MaPhim" value="@Model.MaPhim" />
+
+    <label>Tên phim</label>
+    <input type="text" name="TenPhim" class="form-control mb-2" value="@Model.TenPhim" required />
+
+    <label>Thể loại</label>
+    <input type="text" name="TheLoai" class="form-control mb-2" value="@Model.TheLoai" required />
+
+    <label>Thời lượng</label>
+    <input type="number" name="ThoiLuong" class="form-control mb-2" value="@Model.ThoiLuong" />
+
+    <label>Ngày khởi chiếu</label>
+    <input type="date" name="NgayKhoiChieu" class="form-control mb-2"
+           value="@(Model.NgayKhoiChieu.HasValue ? Model.NgayKhoiChieu.Value.ToString("yyyy-MM-dd") : "")" />
+
+    <label>Poster</label>
+    <input type="text" name="Poster" class="form-control mb-2" value="@Model.Poster" />
+
+    <label>Quốc gia</label>
+    <input type="text" name="QuocGia" class="form-control mb-2" value="@Model.QuocGia" />
+
+    <label>Trailer (URL YouTube: https://www.youtube.com/watch?v=VIDEO_ID hoặc https://youtu.be/VIDEO_ID)</label>
+    <input type="text" name="Trailer" class="form-control mb-3" value="@Model.Trailer" placeholder="Ví dụ: https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+
+    <button class="btn btn-danger">Cập nhật</button>
+</form>

@@ -1,0 +1,75 @@
+@model IEnumerable<Web_DatVe.Models.NGUOIDUNG>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Quản lý người dùng</h2>
+    <a href="/Admin/Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Về Dashboard
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<table class="table table-bordered shadow-sm bg-white">
+    <thead class="table-danger">
+        <tr>
+            <th>Mã ND</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Vai trò</th>
+            <th>Ngày tạo</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var nd in Model)
+        {
+            <tr>
+                <td>@nd.MaND</td>
+                <td>@nd.HoTen</td>
+                <td>@nd.Email</td>
+                <td>@(nd.SoDienThoai ?? "N/A")</td>
+                <td>
+                    @if (nd.VaiTro == "Admin" || nd.VaiTro == "QuanTri")
+                    {
+                        <span class="badge bg-danger">@nd.VaiTro</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">@nd.VaiTro</span>
+                    }
+                </td>
+                <td>@(nd.NgayTao.HasValue ? nd.NgayTao.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" href="/Admin/SuaNguoiDung/@nd.MaND">Sửa</a>
+                    @if (nd.VaiTro != "Admin" && nd.VaiTro != "QuanTri")
+                    {
+                        <a class="btn btn-sm btn-outline-danger" href="/Admin/XoaNguoiDung/@nd.MaND" 
+                           onclick="return confirm('Bạn có chắc muốn xóa người dùng này?');">Xóa</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">Chưa có người dùng nào.</div>
+}
+

@@ -1,0 +1,42 @@
+﻿@model Web_DatVe.Models.DONHANG
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    var ve = ViewBag.Ve as List<Web_DatVe.Models.VE>;
+}
+
+<h2 class="mb-3">Chi tiết đơn hàng #@Model.MaDH</h2>
+
+<p><b>Ngày đặt:</b> @(Model.NgayDat.HasValue ? Model.NgayDat.Value.ToString("dd/MM/yyyy HH:mm") : "N/A")</p>
+<p><b>Phương thức thanh toán:</b> @Model.PhuongThucThanhToan</p>
+<p><b>Trạng thái:</b> @Model.TrangThai</p>
+
+<hr />
+
+<h4>Danh sách vé</h4>
+
+<table class="table table-bordered shadow-sm bg-white">
+    <thead class="table-danger">
+        <tr>
+            <th>Phim</th>
+            <th>Phòng</th>
+            <th>Ghế</th>
+            <th>Giá vé</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var v in ve)
+        {
+            <tr>
+                <td>@v.SUATCHIEU.PHIM.TenPhim</td>
+                <td>@v.SUATCHIEU.PHONG.TenPhong</td>
+                <td>@($"{v.GHE.DayGhe}{v.GHE.SoGhe}")</td>
+                <td>@string.Format("{0:N0}", v.Gia) đ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-end">
+    <a href="/DonHang/Index" class="btn btn-secondary">Quay lại</a>
+</div>

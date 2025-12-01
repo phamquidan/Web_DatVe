@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "Liên hệ";
+}
+
+<!-- Hero Section -->
+<div class="contact-hero mb-5">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-3 text-danger">
+            <i class="bi bi-envelope-paper me-3"></i>Liên hệ với chúng tôi
+        </h1>
+        <p class="lead text-muted">Chúng tôi luôn sẵn sàng hỗ trợ bạn mọi lúc, mọi nơi</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4 mb-5">
+        <!-- Contact Information -->
+        <div class="col-lg-4">
+            <div class="contact-info-card p-4 h-100">
+                <h3 class="text-danger mb-4">
+                    <i class="bi bi-info-circle me-2"></i>Thông tin liên hệ
+                </h3>
+                
+                <div class="contact-item mb-4">
+                    <div class="d-flex align-items-start">
+                        <div class="contact-icon me-3">
+                            <i class="bi bi-geo-alt-fill text-danger"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Địa chỉ</h6>
+                            <p class="text-muted mb-0">123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-item mb-4">
+                    <div class="d-flex align-items-start">
+                        <div class="contact-icon me-3">
+                            <i class="bi bi-telephone-fill text-danger"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Hotline</h6>
+                            <p class="text-muted mb-0">
+                                <a href="tel:1900123456" class="text-decoration-none">1900 123 456</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-item mb-4">
+                    <div class="d-flex align-items-start">
+                        <div class="contact-icon me-3">
+                            <i class="bi bi-envelope-fill text-danger"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Email</h6>
+                            <p class="text-muted mb-0">
+                                <a href="mailto:support@nhom8cinema.com" class="text-decoration-none">support@nhom8cinema.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="d-flex align-items-start">
+                        <div class="contact-icon me-3">
+                            <i class="bi bi-clock-fill text-danger"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Giờ làm việc</h6>
+                            <p class="text-muted mb-0">8:00 - 22:00 hàng ngày</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div class="mt-4 pt-4 border-top">
+                    <h6 class="fw-bold mb-3">Kết nối với chúng tôi</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="social-icon" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="Twitter">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-lg-8">
+            <div class="contact-form-card p-4">
+                <h3 class="text-danger mb-4">
+                    <i class="bi bi-send me-2"></i>Gửi tin nhắn
+                </h3>
+                
+                <form id="contactForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label fw-bold">Họ và tên <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="Nhập họ và tên của bạn">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label fw-bold">Số điện thoại</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="0123 456 789">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="subject" class="form-label fw-bold">Chủ đề <span class="text-danger">*</span></label>
+                            <select class="form-select" id="subject" name="subject" required>
+                                <option value="">-- Chọn chủ đề --</option>
+                                <option value="support">Hỗ trợ kỹ thuật</option>
+                                <option value="booking">Vấn đề đặt vé</option>
+                                <option value="payment">Thanh toán</option>
+                                <option value="feedback">Góp ý</option>
+                                <option value="other">Khác</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="message" class="form-label fw-bold">Nội dung tin nhắn <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="message" name="message" rows="6" required placeholder="Nhập nội dung tin nhắn của bạn..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-danger btn-lg px-5">
+                                <i class="bi bi-send me-2"></i>Gửi tin nhắn
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section (Optional) -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="map-card p-4">
+                <h3 class="text-danger mb-4">
+                    <i class="bi bi-geo-alt me-2"></i>Bản đồ
+                </h3>
+                <div class="map-placeholder bg-light d-flex align-items-center justify-content-center" style="height: 400px; border-radius: 12px;">
+                    <div class="text-center">
+                        <i class="bi bi-map display-1 text-muted mb-3"></i>
+                        <p class="text-muted">123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.');
+        this.reset();
+    });
+</script>

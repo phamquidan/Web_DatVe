@@ -1,0 +1,58 @@
+﻿@model Web_DatVe.Models.ViewModels.HomeVM
+@{
+    ViewBag.Title = "Trang chủ";
+}
+
+<!-- Banner Carousel -->
+<div id="bannerCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="4000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="@Url.Content("~/Content/images/banner1.jpg")" class="d-block w-100" alt="Banner 1" />
+        </div>
+        <div class="carousel-item">
+            <img src="@Url.Content("~/Content/images/banner2.jpg")" class="d-block w-100" alt="Banner 2" />
+        </div>
+        <div class="carousel-item">
+            <img src="@Url.Content("~/Content/images/banner3.jpg")" class="d-block w-100" alt="Banner 3" />
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- PHIM ĐANG CHIẾU -->
+<h3 class="section-title">Phim đang chiếu</h3>
+<div class="movie-grid">
+@foreach (var p in Model.PhimDangChieu)
+{
+    <div class="movie-card">
+        <img src="@Url.Content("~/Content/images/" + p.Poster)" alt="@p.TenPhim" />
+        <div class="movie-info">
+            <h5>@p.TenPhim</h5>
+            <a href="/Phim/ChiTiet/@p.MaPhim" class="btn-book">Đặt vé</a>
+        </div>
+    </div>
+}
+</div>
+
+<!-- PHIM SẮP CHIẾU -->
+<h3 class="section-title mt-5">Phim sắp chiếu</h3>
+<div class="movie-grid">
+@foreach (var p in Model.PhimSapChieu)
+{
+    <div class="movie-card">
+        <img src="@Url.Content("~/Content/images/" + p.Poster)" alt="@p.TenPhim" />
+        <div class="movie-info">
+            <h5>@p.TenPhim</h5>
+            <a href="/Phim/ChiTiet/@p.MaPhim" class="btn-book">Xem chi tiết</a>
+        </div>
+    </div>
+}
+</div>

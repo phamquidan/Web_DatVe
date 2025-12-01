@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Thanh toán";
+    var cart = ViewBag.Cart as List<Web_DatVe.Models.GIOHANG>;
+    decimal tong = ViewBag.TongTien;
+}
+
+<h2 class="mb-3">Thanh toán</h2>
+
+<table class="table table-bordered shadow-sm bg-white">
+    <thead class="table-danger">
+        <tr>
+            <th>Phim</th>
+            <th>Phòng</th>
+            <th>Ghế</th>
+            <th>Giá</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in cart)
+        {
+            <tr>
+                <td>@item.SUATCHIEU.PHIM.TenPhim</td>
+                <td>@item.SUATCHIEU.PHONG.TenPhong</td>
+                <td>@($"{item.GHE.DayGhe}{item.GHE.SoGhe}")</td>
+                <td>@string.Format("{0:N0}", item.Gia) đ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="text-end mt-3">
+    <b>Tổng tiền:</b>
+    <span class="text-danger">@string.Format("{0:N0}", tong) đ</span>
+</h4>
+
+<hr />
+
+<h4>Chọn phương thức thanh toán</h4>
+
+<form method="post" action="/DonHang/ThanhToan">
+    <select name="phuongthuc" class="form-select w-50 mb-3">
+        <option value="Tiền mặt">Tiền mặt</option>
+        <option value="Momo">Momo</option>
+        <option value="Thẻ ngân hàng">Thẻ ngân hàng</option>
+        <option value="Visa/MasterCard">Visa/MasterCard</option>
+    </select>
+
+    <button class="btn btn-danger btn-lg px-5">Thanh toán</button>
+</form>

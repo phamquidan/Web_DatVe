@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Web_DatVe.Models.RAP>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Quản lý rạp</h2>
+    <a href="/Admin/Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Về Dashboard
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<a href="/Admin/ThemRap" class="btn btn-danger mb-3">+ Thêm rạp</a>
+
+<table class="table table-bordered shadow bg-white">
+    <thead class="table-danger">
+        <tr>
+            <th>Tên rạp</th>
+            <th>Địa chỉ</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.TenRap</td>
+                <td>@r.DiaChi</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="/Admin/SuaRap/@r.MaRap">Sửa</a>
+                    <a class="btn btn-outline-danger btn-sm" href="/Admin/XoaRap/@r.MaRap">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

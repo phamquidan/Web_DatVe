@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a634f3aac9d044cfb5af4aaf27d1ae9c" Name="Diagram1">
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.DONHANG" Width="1.5" PointX="8.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.GHE" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.GIOHANG" Width="1.5" PointX="7.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.NGUOIDUNG" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.PHIM" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.PHONG" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.RAP" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.SUATCHIEU" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_DatVeXemPhimModel.VE" Width="1.5" PointX="10.5" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__DONHANG__MaND__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__VE__MaDH__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__GHE__MaPhong__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__GIOHANG__MaGhe__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__VE__MaGhe__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__GIOHANG__MaND__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__GIOHANG__MaSuat__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__SUATCHIEU__MaPhi__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__PHONG__MaRap__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__SUATCHIEU__MaPho__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_DatVeXemPhimModel.FK__VE__MaSuat__619B8048" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

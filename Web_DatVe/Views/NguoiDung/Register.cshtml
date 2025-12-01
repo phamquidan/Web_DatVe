@@ -1,0 +1,56 @@
+﻿@model Web_DatVe.Models.NGUOIDUNG
+@{
+    ViewBag.Title = "Đăng ký";
+}
+
+<h2 class="mb-4">Đăng ký tài khoản</h2>
+
+<form method="post" class="w-50">
+
+    <div class="mb-3">
+        <label>Họ tên</label>
+        <input type="text" class="form-control" name="HoTen" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" class="form-control" name="Email" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Mật khẩu</label>
+        <input type="password" class="form-control" name="MatKhau" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Số điện thoại</label>
+        <input type="text" class="form-control" name="SoDienThoai" />
+    </div>
+
+    <div class="mb-3">
+        <label>Ngày sinh</label>
+        <input type="date" class="form-control" name="NgaySinh" />
+    </div>
+
+    <div class="mb-3">
+        <label>Giới tính</label>
+        <select class="form-select" name="GioiTinh">
+            <option value="">Chọn</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Địa chỉ</label>
+        <input type="text" class="form-control" name="DiaChi" />
+    </div>
+
+    <button class="btn btn-danger px-4">Đăng ký</button>
+
+    <p class="mt-3">
+        Đã có tài khoản?
+        <a href="/NguoiDung/Login">Đăng nhập</a>
+    </p>
+
+</form>

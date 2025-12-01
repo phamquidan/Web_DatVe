@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Web_DatVe.Models.GIOHANG>
+@{
+    ViewBag.Title = "Giỏ hàng";
+}
+
+<h2 class="mb-3">Giỏ hàng</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        Giỏ hàng trống — bạn chưa chọn ghế nào.
+        <br />
+        <a href="/Phim" class="btn btn-danger btn-sm mt-2">Chọn phim</a>
+    </div>
+}
+else
+{
+    <table class="table table-bordered shadow-sm bg-white">
+        <thead class="table-danger">
+            <tr>
+                <th>Phim</th>
+                <th>Phòng</th>
+                <th>Ghế</th>
+                <th>Giá</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SUATCHIEU.PHIM.TenPhim</td>
+                    <td>@item.SUATCHIEU.PHONG.TenPhong</td>
+                    <td>
+                        @{
+                            var ghe = item.GHE;
+                            string name = $"{ghe.DayGhe}{ghe.SoGhe}";
+                        }
+                        @name
+                    </td>
+                    <td>@string.Format("{0:N0}", item.Gia) đ</td>
+
+                    <td>
+                        <a href="/GioHang/Xoa/@item.MaGH" class="btn btn-sm btn-outline-danger">
+                            Xóa
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-end mt-3">
+        <a href="/DonHang/Checkout" class="btn btn-danger btn-lg px-5">
+            Tiến hành thanh toán
+        </a>
+    </div>
+}

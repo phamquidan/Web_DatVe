@@ -1,0 +1,41 @@
+@model Web_DatVe.Models.GHE
+@{
+    var phong = ViewBag.Phong as List<Web_DatVe.Models.PHONG>;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Sửa ghế</h2>
+    <a href="/Admin/Ghe" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Quay lại
+    </a>
+</div>
+
+<form method="post" class="w-50">
+
+    <input type="hidden" name="MaGhe" value="@Model.MaGhe" />
+
+    <label>Phòng</label>
+    <select name="MaPhong" class="form-select mb-2" required>
+        @foreach (var p in phong)
+        {
+            <option value="@p.MaPhong" @(p.MaPhong == Model.MaPhong ? "selected" : "")>@p.TenPhong</option>
+        }
+    </select>
+
+    <label>Dãy ghế</label>
+    <input type="text" name="DayGhe" class="form-control mb-2" value="@Model.DayGhe" maxlength="5" required />
+
+    <label>Số ghế</label>
+    <input type="number" name="SoGhe" class="form-control mb-2" value="@Model.SoGhe" min="1" />
+
+    <label>Loại ghế</label>
+    <select name="LoaiGhe" class="form-select mb-3">
+        <option value="Thường" @(Model.LoaiGhe == "Thường" ? "selected" : "")>Thường</option>
+        <option value="VIP" @(Model.LoaiGhe == "VIP" ? "selected" : "")>VIP</option>
+        <option value="Couple" @(Model.LoaiGhe == "Couple" ? "selected" : "")>Couple</option>
+    </select>
+
+    <button class="btn btn-danger">Cập nhật</button>
+    <a href="/Admin/Ghe" class="btn btn-secondary">Hủy</a>
+</form>
+

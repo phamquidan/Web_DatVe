@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Web_DatVe.Models.RAP>
+@{
+    ViewBag.Title = "Danh sách rạp";
+}
+
+<h2 class="mb-3">Danh sách rạp</h2>
+
+<div class="row">
+    @foreach (var r in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">@r.TenRap</h5>
+                    <p>@r.DiaChi</p>
+                    <a href="/Rap/ChiTiet/@r.MaRap" class="btn btn-danger btn-sm">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

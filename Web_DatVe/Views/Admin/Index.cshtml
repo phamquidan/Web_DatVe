@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "Trang quản trị";
+}
+
+<h2 class="mb-4 text-danger">Dashboard Quản trị</h2>
+
+<!-- THỐNG KÊ -->
+<div class="row text-center mb-5">
+
+    <div class="col-md-3 mb-3">
+        <a href="/Admin/Phim" class="text-decoration-none">
+            <div class="p-4 shadow bg-light rounded hover-card">
+                <h3 class="text-danger">@ViewBag.SoPhim</h3>
+                <p><b>Phim</b></p>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="/Admin/Rap" class="text-decoration-none">
+            <div class="p-4 shadow bg-light rounded hover-card">
+                <h3 class="text-danger">@ViewBag.SoRap</h3>
+                <p><b>Rạp</b></p>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="/Admin/NguoiDung" class="text-decoration-none">
+            <div class="p-4 shadow bg-light rounded hover-card">
+                <h3 class="text-danger">@ViewBag.SoNguoiDung</h3>
+                <p><b>Người dùng</b></p>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="/Admin/DonHang" class="text-decoration-none">
+            <div class="p-4 shadow bg-light rounded hover-card">
+                <h3 class="text-danger">@ViewBag.SoDonHang</h3>
+                <p><b>Đơn hàng</b></p>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<!-- MENU QUẢN LÝ -->
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-3">Quản lý</h3>
+        <div class="row g-3">
+            
+            <!-- Quản lý Phim -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-film"></i> Quản lý Phim
+                        </h5>
+                        <p class="card-text">Thêm, sửa, xóa phim và thông tin phim</p>
+                        <a href="/Admin/Phim" class="btn btn-danger">Quản lý phim</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quản lý Rạp -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-building"></i> Quản lý Rạp
+                        </h5>
+                        <p class="card-text">Thêm, sửa, xóa thông tin rạp chiếu phim</p>
+                        <a href="/Admin/Rap" class="btn btn-danger">Quản lý rạp</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quản lý Phòng -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-door-open"></i> Quản lý Phòng
+                        </h5>
+                        <p class="card-text">Thêm, sửa, xóa phòng chiếu trong rạp</p>
+                        <a href="/Admin/Phong" class="btn btn-danger">Quản lý phòng</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quản lý Ghế -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-grid-3x3"></i> Quản lý Ghế
+                        </h5>
+                        <p class="card-text">Thêm, sửa, xóa ghế trong các phòng</p>
+                        <a href="/Admin/Ghe" class="btn btn-danger">Quản lý ghế</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quản lý Suất chiếu -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-clock"></i> Quản lý Suất chiếu
+                        </h5>
+                        <p class="card-text">Xem danh sách suất chiếu</p>
+                        <a href="/Admin/SuatChieu" class="btn btn-danger">Xem suất chiếu</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quản lý Người dùng -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-people"></i> Quản lý Người dùng
+                        </h5>
+                        <p class="card-text">Xem danh sách người dùng</p>
+                        <a href="/Admin/NguoiDung" class="btn btn-danger">Xem người dùng</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quản lý Đơn hàng -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-receipt-cutoff"></i> Quản lý Đơn hàng
+                        </h5>
+                        <p class="card-text">Xem và quản lý đơn hàng</p>
+                        <a href="/Admin/DonHang" class="btn btn-danger">Xem đơn hàng</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

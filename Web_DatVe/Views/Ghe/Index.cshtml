@@ -1,0 +1,98 @@
+﻿@model Web_DatVe.Models.ViewModels.SeatMapVM
+@{
+    ViewBag.Title = "Chọn ghế";
+}
+
+<h2 class="text-danger mb-3">Chọn ghế</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="seatmap-container">
+
+    <!-- THÔNG TIN SUẤT CHIẾU -->
+    <div class="mb-4">
+        <h4 class="text-dark">Phim: <span class="text-danger">@Model.Suat.PHIM.TenPhim</span></h4>
+        <p><b>Phòng:</b> @Model.Phong.TenPhong</p>
+        <p><b>Thời gian:</b> @Model.Suat.ThoiGianBatDau.ToString("HH:mm dd/MM/yyyy")</p>
+    </div>
+
+    <!-- SCREEN -->
+    <div class="screen mb-4">MÀN HÌNH</div>
+
+    <!-- SEAT MAP -->
+    @foreach (var group in Model.Ghe.GroupBy(x => x.DayGhe))
+    {
+        <div class="seat-row">
+            <span class="seat-label">@group.Key</span>
+
+            @foreach (var g in group)
+            {
+                string css = "seat ";
+
+                if (Model.GheDaDat.Contains(g.MaGhe))
+                {
+                    css += "disabled";
+                }
+                else if (g.LoaiGhe == "VIP")
+                {
+                    css += "vip";
+                }
+                else if (g.LoaiGhe == "Couple")
+                {
+                    css += "couple";
+                }
+                else
+                {
+                    css += "normal";
+                }
+
+                <div class="@css"
+                     data-id="@g.MaGhe"
+                     title="@($"{g.DayGhe}{g.SoGhe}")">
+                </div>
+            }
+        </div>
+    }
+
+    <!-- LEGEND -->
+    <div class="seat-legend">
+        <div class="legend-item">
+            <div class="legend-seat legend-normal"></div> Ghế thường
+        </div>
+        <div class="legend-item">
+            <div class="legend-seat legend-vip"></div> Ghế VIP
+        </div>
+        <div class="legend-item">
+            <div class="legend-seat legend-selected"></div> Đang chọn
+        </div>
+        <div class="legend-item">
+            <div class="legend-seat legend-disabled"></div> Đã đặt
+        </div>
+    </div>
+</div>
+
+<!-- THÔNG TIN GHẾ ĐÃ CHỌN -->
+<div class="mt-4 p-3 border rounded">
+    <h5>Ghế đã chọn:</h5>
+    <p id="selectedSeatList" class="fw-bold">Chưa chọn ghế nào</p>
+</div>
+
+<!-- FORM GỬI GHẾ -->
+<form method="post" action="/Ghe/DatGhe/@Model.Suat.MaSuat" class="mt-3">
+    <input type="hidden" id="SeatIds" name="seatIds" />
+    <button id="seatSubmitBtn" class="btn btn-danger px-4">Xác nhận ghế</button>
+</form>

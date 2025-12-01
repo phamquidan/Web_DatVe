@@ -1,0 +1,54 @@
+﻿@model Web_DatVe.Models.ViewModels.RapDetailVM
+@{
+    ViewBag.Title = Model.Rap.TenRap;
+}
+
+<h2 class="text-danger mb-3">@Model.Rap.TenRap</h2>
+
+<p><b>Địa chỉ:</b> @Model.Rap.DiaChi</p>
+
+<hr />
+
+<h4 class="mt-4">Danh sách phòng</h4>
+
+@if (!Model.Phong.Any())
+{
+    <p>Rạp chưa có phòng chiếu.</p>
+}
+else
+{
+    <ul>
+        @foreach (var p in Model.Phong)
+        {
+            <li><b>@p.TenPhong</b> — @p.SoLuongGhe ghế</li>
+        }
+    </ul>
+}
+
+<hr />
+
+<h4 class="mt-4">Lịch chiếu</h4>
+
+@if (!Model.SuatChieu.Any())
+{
+    <p class="text-muted">Hiện chưa có suất chiếu.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var s in Model.SuatChieu)
+        {
+            <div class="col-md-3 mb-3">
+                <div class="p-3 border rounded bg-light shadow-sm">
+                    <b>Phim:</b> @s.PHIM.TenPhim <br />
+                    <b>Phòng:</b> @s.PHONG.TenPhong <br />
+                    <b>Giờ:</b> @s.ThoiGianBatDau.ToString("HH:mm dd/MM") <br />
+                    <b>Giá:</b> @string.Format("{0:N0}", s.GiaVe) đ <br />
+
+                    <a href="/Ghe/ChonGhe/@s.MaSuat"
+                       class="btn btn-danger btn-sm mt-2">Đặt vé</a>
+                </div>
+            </div>
+        }
+    </div>
+}

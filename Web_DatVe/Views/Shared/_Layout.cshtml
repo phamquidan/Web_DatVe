@@ -1,0 +1,282 @@
+﻿@using System.Web
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - Nhom8Cinema</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- Custom CSS -->
+    <!-- Đường dẫn đúng tới file CSS trong thư mục Content -->
+    <link rel="stylesheet" href="~/Content/Layout.css" />
+    <link rel="stylesheet" href="~/Content/seatmap.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/favicon-192.png">
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="main-header shadow-sm">
+        <div class="container">
+            <div class="header-content d-flex align-items-center justify-content-between py-3">
+                <!-- Logo -->
+                <a href="/" class="navbar-brand d-flex align-items-center text-decoration-none" style="text-decoration: none !important; flex-shrink: 0;">
+                    <img id="logoMain" 
+                         src="@Url.Content("~/Content/images/logo-light.jpg")" 
+                         height="45" 
+                         width="auto"
+                         alt="Nhom8Cinema" 
+                         style="max-width: 200px; height: 45px; width: auto; display: inline-block; object-fit: contain; vertical-align: middle;" 
+                         onerror="console.error('Logo failed to load:', this.src);" />
+                </a>
+
+                <!-- Navigation Menu -->
+                <nav class="nav-menu-inline d-flex align-items-center gap-4 flex-grow-1 justify-content-center">
+                    <a href="/" class="menu-item">Trang chủ</a>
+
+                    <div class="dropdown">
+                        <a class="menu-item dropdown-toggle" data-bs-toggle="dropdown" href="/Phim">Phim</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/Phim">Tất cả phim</a></li>
+                            <li><a class="dropdown-item" href="/Phim?nam=@DateTime.Now.Year">Phim năm @DateTime.Now.Year</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a class="menu-item dropdown-toggle" data-bs-toggle="dropdown" href="/Rap">Rạp</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/Rap">Danh sách rạp</a></li>
+                            <li><a class="dropdown-item" href="/Rap">Rạp nổi bật</a></li>
+                        </ul>
+                    </div>
+
+                    <a href="/Home/About" class="menu-item">Giới thiệu</a>
+                    <a href="/Home/Contact" class="menu-item">Liên hệ</a>
+                </nav>
+
+                <!-- Right Side: Search, Dark Mode, Cart, User -->
+                <div class="header-right d-flex align-items-center gap-3" style="flex-shrink: 0;">
+                    <!-- Search -->
+                    <form class="search-box d-none d-lg-flex" action="/Phim/Index" method="get">
+                        <input type="text" name="search" placeholder="Tìm phim..." />
+                        <button type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="btn btn-outline-secondary">
+                        <i id="darkIcon" class="bi bi-moon-stars"></i>
+                    </button>
+
+                    <!-- Giỏ hàng (chỉ hiển thị cho user thường, không phải admin) -->
+                    @{
+                        var vaiTroCheck = Session["VaiTro"]?.ToString();
+                        bool isAdminUser = vaiTroCheck == "Admin" || vaiTroCheck == "QuanTri";
+                        int cartCount = 0;
+                        if (Session["MaND"] != null && !isAdminUser)
+                        {
+                            int maND = (int)Session["MaND"];
+                            using (var db = new Web_DatVe.Models.QL_DatVeXemPhimEntities1())
+                            {
+                                cartCount = db.GIOHANGs.Count(x => x.MaND == maND);
+                            }
+                        }
+                    }
+                    @if (!isAdminUser)
+                    {
+                        <a href="/GioHang/Index" class="cart-icon position-relative text-decoration-none">
+                            <i class="bi bi-cart3 fs-5"></i>
+                            @if (cartCount > 0)
+                            {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @cartCount
+                                </span>
+                            }
+                        </a>
+                    }
+
+                    <!-- User -->
+                    <div class="dropdown">
+                        <button class="user-btn dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-5"></i>
+                            <span class="d-none d-md-inline">
+                                @(Session["HoTen"] != null ? Session["HoTen"].ToString() : "Tài khoản")
+                            </span>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @if (Session["MaND"] != null)
+                            {
+                                var vaiTroMenu = Session["VaiTro"]?.ToString();
+                                bool isAdminMenu = vaiTroMenu == "Admin" || vaiTroMenu == "QuanTri";
+                                
+                                if (isAdminMenu)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="/Admin/Index">
+                                            <i class="bi bi-speedometer2"></i> Trang quản trị
+                                        </a>
+                                    </li>
+                                    <li><hr /></li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="/NguoiDung/Profile">
+                                            <i class="bi bi-person"></i> Thông tin
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/DonHang/Index">
+                                            <i class="bi bi-receipt"></i> Đơn hàng
+                                        </a>
+                                    </li>
+                                    <li><hr /></li>
+                                }
+                                <li>
+                                    <a class="dropdown-item" href="/NguoiDung/Logout">
+                                        <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/NguoiDung/Login">
+                                        <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/NguoiDung/Register">
+                                        <i class="bi bi-person-plus"></i> Đăng ký
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row g-4 py-5">
+                <!-- Brand Column -->
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <h4 class="text-danger fw-bold mb-3">
+                        <i class="bi bi-film me-2"></i>Nhom8Cinema
+                    </h4>
+                    <p class="footer-description mb-3" style="line-height: 1.8;">
+                        Website đặt vé xem phim trực tuyến – UI theo phong cách Moveek, trải nghiệm tối ưu. 
+                        Khám phá những bộ phim hay nhất và đặt vé ngay hôm nay!
+                    </p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="social-icon" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="Twitter">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Links Column -->
+                <div class="col-lg-2 col-md-3 col-sm-6 mb-4 mb-md-0">
+                    <h6 class="fw-bold mb-3 text-white">Liên kết</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/Phim">Phim</a></li>
+                        <li><a href="/Rap">Rạp</a></li>
+                        <li><a href="/Home/About">Giới thiệu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support Column -->
+                <div class="col-lg-2 col-md-3 col-sm-6 mb-4 mb-md-0">
+                    <h6 class="fw-bold mb-3 text-white">Hỗ trợ</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="/Home/Contact">Liên hệ</a></li>
+                        <li><a href="/Home/Contact">Trung tâm trợ giúp</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Column -->
+                <div class="col-lg-4 col-md-12">
+                    <h6 class="fw-bold mb-3 text-white">Thông tin liên hệ</h6>
+                    <ul class="list-unstyled footer-contact">
+                        <li class="mb-2">
+                            <i class="bi bi-geo-alt-fill me-2 text-danger"></i>
+                            <span class="footer-text">123 Đường ABC, Quận XYZ, TP.HCM</span>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-telephone-fill me-2 text-danger"></i>
+                            <a href="tel:19001234" class="footer-text text-decoration-none">1900 1234</a>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-envelope-fill me-2 text-danger"></i>
+                            <a href="mailto:info@nhom8cinema.com" class="footer-text text-decoration-none">info@nhom8cinema.com</a>
+                        </li>
+                        <li>
+                            <i class="bi bi-clock-fill me-2 text-danger"></i>
+                            <span class="footer-text">8:00 - 22:00 hàng ngày</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.1);" />
+
+            <!-- Copyright -->
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="footer-text small mb-0">
+                        © 2025 <span class="text-danger fw-bold">Nhom8Cinema</span>. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="footer-text small mb-0">
+                        Made with <i class="bi bi-heart-fill text-danger"></i> by Team 8
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="@Url.Content("~/Scripts/Site.js")"></script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

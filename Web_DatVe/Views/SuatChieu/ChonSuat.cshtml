@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Web_DatVe.Models.SUATCHIEU>
+@{
+    ViewBag.Title = "Chọn suất chiếu";
+}
+
+<h2 class="mb-4">Chọn suất chiếu</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">Hiện phim chưa có suất chiếu nào.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var s in Model)
+        {
+            <div class="col-md-3 mb-3">
+                <div class="p-3 border shadow-sm rounded bg-light">
+
+                    <div class="mb-2">
+                        <b>Phim:</b> @s.PHIM.TenPhim
+                    </div>
+
+                    <b>Phòng:</b> @s.PHONG.TenPhong <br />
+                    <b>Thời gian:</b> @s.ThoiGianBatDau.ToString("HH:mm dd/MM") <br />
+                    <b>Giá vé:</b> @string.Format("{0:N0}", s.GiaVe) đ <br />
+
+                    <a href="/Ghe/ChonGhe/@s.MaSuat"
+                       class="btn btn-danger btn-sm mt-3">
+                        Chọn ghế
+                    </a>
+
+                </div>
+            </div>
+        }
+    </div>
+}
