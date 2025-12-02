@@ -9,5 +9,7 @@ namespace Web_DatVe.Models.ViewModels
     {
         public PHIM Phim { get; set; }
         public List<SUATCHIEU> SuatChieu { get; set; }
+        // Danh sách phim liên quan (cùng thể loại, loại trừ chính nó)
+        public List<PHIM> PhimLienQuan { get; set; }
     }
 }

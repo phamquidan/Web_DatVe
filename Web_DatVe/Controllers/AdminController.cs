@@ -48,6 +48,47 @@ namespace Web_DatVe.Controllers
             return View(db.PHIMs.ToList());
         }
 
+        // Tạo suất chiếu mặc định cho tất cả phim chưa có suất
+        public ActionResult TaoSuatMacDinhChoTatCaPhim()
+        {
+            var phong = db.PHONGs.FirstOrDefault();
+            if (phong == null)
+            {
+                TempData["Error"] = "Chưa có phòng chiếu nào, không thể tạo suất mặc định.";
+                return RedirectToAction("Phim");
+            }
+
+            var phimChuaCoSuat = db.PHIMs
+                .Where(p => !db.SUATCHIEUx.Any(s => s.MaPhim == p.MaPhim))
+                .ToList();
+
+            int offset = 1;
+            foreach (var phim in phimChuaCoSuat)
+            {
+                var suat = new SUATCHIEU
+                {
+                    MaPhim = phim.MaPhim,
+                    MaPhong = phong.MaPhong,
+                    ThoiGianBatDau = DateTime.Now.Date.AddDays(offset).AddHours(20),
+                    GiaVe = 80000
+                };
+                db.SUATCHIEUx.Add(suat);
+                offset++;
+            }
+
+            if (phimChuaCoSuat.Any())
+            {
+                db.SaveChanges();
+                TempData["Success"] = $"Đã tạo suất chiếu mặc định cho {phimChuaCoSuat.Count} phim.";
+            }
+            else
+            {
+                TempData["Success"] = "Tất cả phim đều đã có suất chiếu, không cần tạo thêm.";
+            }
+
+            return RedirectToAction("Phim");
+        }
+
         public ActionResult ThemPhim() => View();
 
         [HttpPost]
@@ -59,7 +100,24 @@ namespace Web_DatVe.Controllers
                 {
                     db.PHIMs.Add(p);
                     db.SaveChanges();
-                    TempData["Success"] = "Đã thêm phim thành công!";
+
+                    // Sau khi thêm phim, tự động tạo 1 suất chiếu mặc định
+                    var phong = db.PHONGs.FirstOrDefault();
+                    if (phong != null)
+                    {
+                        var suat = new SUATCHIEU
+                        {
+                            MaPhim = p.MaPhim,
+                            MaPhong = phong.MaPhong,
+                            // Mặc định: ngày mai 20:00
+                            ThoiGianBatDau = DateTime.Now.Date.AddDays(1).AddHours(20),
+                            GiaVe = 80000
+                        };
+                        db.SUATCHIEUx.Add(suat);
+                        db.SaveChanges();
+                    }
+
+                    TempData["Success"] = "Đã thêm phim (kèm 1 suất chiếu mặc định) thành công!";
                     return RedirectToAction("Phim");
                 }
                 catch (Exception ex)
@@ -279,6 +337,81 @@ namespace Web_DatVe.Controllers
             return View(suatChieu);
         }
 
+        public ActionResult ThemSuatChieu()
+        {
+            ViewBag.PhimList = db.PHIMs.OrderBy(p => p.TenPhim).ToList();
+            ViewBag.PhongList = db.PHONGs.OrderBy(p => p.TenPhong).ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ThemSuatChieu(SUATCHIEU s)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.SUATCHIEUx.Add(s);
+                    db.SaveChanges();
+                    TempData["Success"] = "Đã thêm suất chiếu thành công!";
+                    return RedirectToAction("SuatChieu");
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Lỗi khi thêm suất chiếu: " + ex.Message;
+                }
+            }
+            else
+            {
+                TempData["Error"] = "Vui lòng kiểm tra lại thông tin nhập vào.";
+            }
+
+            ViewBag.PhimList = db.PHIMs.OrderBy(p => p.TenPhim).ToList();
+            ViewBag.PhongList = db.PHONGs.OrderBy(p => p.TenPhong).ToList();
+            return View(s);
+        }
+
+        public ActionResult SuaSuatChieu(int id)
+        {
+            var suat = db.SUATCHIEUx.Find(id);
+            if (suat == null)
+            {
+                TempData["Error"] = "Không tìm thấy suất chiếu.";
+                return RedirectToAction("SuatChieu");
+            }
+
+            ViewBag.PhimList = db.PHIMs.OrderBy(p => p.TenPhim).ToList();
+            ViewBag.PhongList = db.PHONGs.OrderBy(p => p.TenPhong).ToList();
+            return View(suat);
+        }
+
+        [HttpPost]
+        public ActionResult SuaSuatChieu(SUATCHIEU s)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.Entry(s).State = EntityState.Modified;
+                    db.SaveChanges();
+                    TempData["Success"] = "Đã cập nhật suất chiếu thành công!";
+                    return RedirectToAction("SuatChieu");
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Lỗi khi cập nhật suất chiếu: " + ex.Message;
+                }
+            }
+            else
+            {
+                TempData["Error"] = "Vui lòng kiểm tra lại thông tin nhập vào.";
+            }
+
+            ViewBag.PhimList = db.PHIMs.OrderBy(p => p.TenPhim).ToList();
+            ViewBag.PhongList = db.PHONGs.OrderBy(p => p.TenPhong).ToList();
+            return View(s);
+        }
+
         /* ------------------- NGƯỜI DÙNG ------------------- */
         public ActionResult NguoiDung()
         {
@@ -368,6 +501,47 @@ namespace Web_DatVe.Controllers
 
             var donHang = query.OrderByDescending(d => d.NgayDat).ToList();
             return View(donHang);
+        }
+
+        /* ------------------- THỐNG KÊ DOANH THU ------------------- */
+        public ActionResult ThongKeDoanhThu(string tuNgay, string denNgay)
+        {
+            var query = db.DONHANGs
+                .Where(d => d.TrangThai == "Đã thanh toán");
+
+            DateTime? from = null;
+            DateTime? to = null;
+
+            if (!string.IsNullOrEmpty(tuNgay) && DateTime.TryParse(tuNgay, out DateTime f))
+            {
+                from = f.Date;
+                query = query.Where(d => d.NgayDat.HasValue && DbFunctions.TruncateTime(d.NgayDat) >= from);
+            }
+
+            if (!string.IsNullOrEmpty(denNgay) && DateTime.TryParse(denNgay, out DateTime t))
+            {
+                to = t.Date;
+                query = query.Where(d => d.NgayDat.HasValue && DbFunctions.TruncateTime(d.NgayDat) <= to);
+            }
+
+            var data = query
+                .Where(d => d.NgayDat.HasValue)
+                .GroupBy(d => DbFunctions.TruncateTime(d.NgayDat).Value)
+                .Select(g => new Web_DatVe.Models.ViewModels.RevenueStatsVM
+                {
+                    Ngay = g.Key,
+                    TongTien = g.Sum(x => x.TongTien) ?? 0,
+                    SoDon = g.Count()
+                })
+                .OrderBy(g => g.Ngay)
+                .ToList();
+
+            ViewBag.TuNgay = from?.ToString("yyyy-MM-dd");
+            ViewBag.DenNgay = to?.ToString("yyyy-MM-dd");
+            ViewBag.TongDoanhThu = data.Sum(x => x.TongTien);
+            ViewBag.TongDon = data.Sum(x => x.SoDon);
+
+            return View(data);
         }
 
         public ActionResult ChiTietDonHang(int id)

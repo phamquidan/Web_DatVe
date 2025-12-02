@@ -20,6 +20,9 @@
     <label>Thời lượng</label>
     <input type="number" name="ThoiLuong" class="form-control mb-2" value="@Model.ThoiLuong" />
 
+    <label>Mô tả</label>
+    <textarea name="MoTa" class="form-control mb-2" rows="4">@Model.MoTa</textarea>
+
     <label>Ngày khởi chiếu</label>
     <input type="date" name="NgayKhoiChieu" class="form-control mb-2"
            value="@(Model.NgayKhoiChieu.HasValue ? Model.NgayKhoiChieu.Value.ToString("yyyy-MM-dd") : "")" />

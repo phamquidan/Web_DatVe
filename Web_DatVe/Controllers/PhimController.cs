@@ -61,10 +61,38 @@ namespace Web_DatVe.Controllers
                 .OrderBy(s => s.ThoiGianBatDau)
                 .ToList();
 
+            // Lấy danh sách phim liên quan
+            // Ưu tiên cùng thể loại, khác phim hiện tại; nếu không có thì lấy các phim mới nhất khác bất kỳ
+            var query = db.PHIMs.Where(p => p.MaPhim != id);
+
+            if (!string.IsNullOrWhiteSpace(phim.TheLoai))
+            {
+                string tl = phim.TheLoai.Trim();
+                query = query.Where(p =>
+                    p.TheLoai != null &&
+                    (p.TheLoai.Contains(tl) || tl.Contains(p.TheLoai)));
+            }
+
+            var phimLienQuan = query
+                .OrderByDescending(p => p.NgayKhoiChieu)
+                .Take(4)
+                .ToList();
+
+            // Nếu sau khi lọc thể loại không có phim nào, lấy 4 phim bất kỳ (trừ phim hiện tại)
+            if (phimLienQuan.Count == 0)
+            {
+                phimLienQuan = db.PHIMs
+                    .Where(p => p.MaPhim != id)
+                    .OrderByDescending(p => p.NgayKhoiChieu)
+                    .Take(4)
+                    .ToList();
+            }
+
             var vm = new MovieDetailVM
             {
                 Phim = phim,
-                SuatChieu = suat
+                SuatChieu = suat,
+                PhimLienQuan = phimLienQuan
             };
 
             return View(vm);

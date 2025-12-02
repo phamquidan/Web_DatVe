@@ -23,7 +23,13 @@
     </div>
 }
 
-<a href="/Admin/ThemPhim" class="btn btn-danger mb-3">+ Thêm phim</a>
+<div class="d-flex gap-2 mb-3">
+    <a href="/Admin/ThemPhim" class="btn btn-danger">+ Thêm phim</a>
+    <a href="/Admin/TaoSuatMacDinhChoTatCaPhim" class="btn btn-outline-primary"
+       onclick="return confirm('Tạo suất chiếu mặc định cho tất cả phim chưa có suất?');">
+        Tạo suất mặc định cho tất cả phim
+    </a>
+</div>
 
 <table class="table table-bordered shadow-sm bg-white">
     <thead class="table-danger">

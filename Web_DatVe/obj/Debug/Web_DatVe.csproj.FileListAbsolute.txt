@@ -1,3 +1,5 @@
+D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\obj\Debug\Web_DatVe.csproj.AssemblyReference.cache
+D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\obj\Debug\Web_DatVe.csproj.CoreCompileInputs.cache
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\bin\Web_DatVe.dll.config
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\bin\Web_DatVe.dll
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\bin\Web_DatVe.pdb
@@ -96,8 +98,6 @@ D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\bin\System.Web.Optimization.xml
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\bin\Newtonsoft.Json.xml
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\bin\Antlr3.Runtime.pdb
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\obj\Debug\Web_DatVe.csproj.AssemblyReference.cache
-D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\obj\Debug\Web_DatVe.csproj.CoreCompileInputs.cache
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\obj\Debug\Web_DatVe.csproj.Up2Date
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\obj\Debug\Web_DatVe.dll
 D:\DoAn_Nhom08\Web_DatVe\Web_DatVe\obj\Debug\Web_DatVe.pdb

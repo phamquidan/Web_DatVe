@@ -155,16 +155,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\API\CartApiController.cs" />
-    <Compile Include="Controllers\API\DonHangApiController.cs" />
-    <Compile Include="Controllers\API\GheApiController.cs" />
-    <Compile Include="Controllers\API\PhimApiController.cs" />
-    <Compile Include="Controllers\API\PhongApiController.cs" />
-    <Compile Include="Controllers\API\RapApiController.cs" />
-    <Compile Include="Controllers\API\SuatChieuApiController.cs" />
-    <Compile Include="Controllers\API\UserApiController.cs" />
     <Compile Include="Controllers\DonHangController.cs" />
     <Compile Include="Controllers\GheController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
@@ -222,6 +213,7 @@
     <Compile Include="Models\ViewModels\MovieDetailVM.cs" />
     <Compile Include="Models\ViewModels\RapDetailVM.cs" />
     <Compile Include="Models\ViewModels\SeatMapVM.cs" />
+    <Compile Include="Models\ViewModels\RevenueStatsVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
