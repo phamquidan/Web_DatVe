@@ -41,19 +41,60 @@
         </tr>
     </thead>
 
-    <tbody>
-        @foreach (var p in Model)
-        {
-            <tr>
-                <td>@p.TenPhim</td>
-                <td>@p.TheLoai</td>
-                <td>@(p.NgayKhoiChieu.HasValue ? p.NgayKhoiChieu.Value.ToString("dd/MM/yyyy") : "N/A")</td>
-
-                <td>
-                    <a class="btn btn-sm btn-warning" href="/Admin/SuaPhim/@p.MaPhim">Sửa</a>
-                    <a class="btn btn-sm btn-outline-danger" href="/Admin/XoaPhim/@p.MaPhim">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+    <tbody id="tbody-phim"></tbody>
 </table>
+
+
+<script>
+    function loadPhim() {
+        fetch('/api/phim/getall')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('tbody-phim');
+                tbody.innerHTML = "";
+
+                data.forEach(p => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${p.TenPhim}</td>
+                            <td>${p.TheLoai}</td>
+                            <td>${p.NgayKhoiChieu ? formatDate(p.NgayKhoiChieu) : "N/A"}</td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" href="/Admin/SuaPhim/${p.MaPhim}">Sửa</a>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deletePhim(${p.MaPhim})">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            });
+    }
+
+    function deletePhim(id) {
+        if (!confirm("Bạn chắc chắn muốn xóa phim này?")) return;
+
+        fetch(`/api/phim/delete/${id}`, {
+            method: 'DELETE'
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("Đã xóa thành công");
+                    loadPhim();
+                } else {
+                    // Cố gắng đọc nội dung lỗi từ phản hồi (response body)
+                    res.text().then(errorText => {
+                        // Hiển thị thông báo lỗi chi tiết hơn
+                        alert("Xóa thất bại. Lỗi: " + errorText);
+                    }).catch(() => {
+                        alert("Xóa thất bại. Không đọc được thông báo lỗi.");
+                    });
+                }
+            });
+    }
+
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('vi-VN');
+    }
+
+    window.onload = loadPhim;
+</script>

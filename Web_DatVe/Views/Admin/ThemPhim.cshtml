@@ -15,31 +15,64 @@
     </div>
 }
 
-<form method="post" class="w-50">
+<form method="post" class="w-50" onsubmit="return createPhim();">
 
     <label>Tên phim</label>
-    <input type="text" class="form-control mb-2" name="TenPhim" required />
+    <input type="text" class="form-control mb-2" name="TenPhim" id="TenPhim" required />
 
     <label>Thể loại</label>
-    <input type="text" class="form-control mb-2" name="TheLoai" required />
+    <input type="text" class="form-control mb-2" name="TheLoai" id="TheLoai" required />
 
     <label>Thời lượng (phút)</label>
-    <input type="number" class="form-control mb-2" name="ThoiLuong" required />
+    <input type="number" class="form-control mb-2" name="ThoiLuong" id="ThoiLuong" required />
 
     <label>Mô tả</label>
-    <textarea class="form-control mb-2" name="MoTa" rows="4" placeholder="Nhập nội dung / mô tả phim"></textarea>
+    <textarea class="form-control mb-2" name="MoTa" id="MoTa" rows="4" placeholder="Nhập nội dung / mô tả phim"></textarea>
 
     <label>Ngày khởi chiếu</label>
-    <input type="date" class="form-control mb-2" name="NgayKhoiChieu" />
+    <input type="date" class="form-control mb-2" name="NgayKhoiChieu" id="NgayKhoiChieu" />
 
     <label>Poster (tên file trong thư mục Content/images)</label>
-    <input type="text" class="form-control mb-2" name="Poster" />
+    <input type="text" class="form-control mb-2" name="Poster" id="Poster" />
 
     <label>Quốc gia</label>
-    <input type="text" class="form-control mb-2" name="QuocGia" />
+    <input type="text" class="form-control mb-2" name="QuocGia" id="QuocGia" />
 
     <label>Trailer (URL YouTube: https://www.youtube.com/watch?v=VIDEO_ID hoặc https://youtu.be/VIDEO_ID)</label>
-    <input type="text" class="form-control mb-3" name="Trailer" placeholder="Ví dụ: https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+    <input type="text" class="form-control mb-3" name="Trailer" id="Trailer" placeholder="Ví dụ: https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
 
     <button class="btn btn-danger">Lưu</button>
 </form>
+
+
+<script>
+    function createPhim() {
+        const obj = {
+            TenPhim: document.getElementById("TenPhim").value,
+            TheLoai: document.getElementById("TheLoai").value,
+            ThoiLuong: document.getElementById("ThoiLuong").value,
+            MoTa: document.getElementById("MoTa").value,
+            NgayKhoiChieu: document.getElementById("NgayKhoiChieu").value,
+            Poster: document.getElementById("Poster").value,
+            QuocGia: document.getElementById("QuocGia").value,
+            Trailer: document.getElementById("Trailer").value,
+        };
+
+        fetch('/api/phim/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(obj)
+        })
+            .then(res => {
+                if (res.ok) return res.json();
+                throw new Error('Lỗi tạo phim');
+            })
+            .then(data => {
+                alert("Đã thêm phim thành công!");
+                window.location.href = "/Admin/Phim";
+            })
+            .catch(err => alert(err.message));
+
+        return false; // Không reload trang
+    }
+</script>

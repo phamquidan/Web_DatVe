@@ -10,7 +10,7 @@
     <div class="col-md-3 mb-3">
         <a href="/Admin/Phim" class="text-decoration-none">
             <div class="p-4 shadow bg-light rounded hover-card">
-                <h3 class="text-danger">@ViewBag.SoPhim</h3>
+                <h3 class="text-danger" id="soPhim">...</h3>
                 <p><b>Phim</b></p>
             </div>
         </a>
@@ -19,7 +19,7 @@
     <div class="col-md-3 mb-3">
         <a href="/Admin/Rap" class="text-decoration-none">
             <div class="p-4 shadow bg-light rounded hover-card">
-                <h3 class="text-danger">@ViewBag.SoRap</h3>
+                <h3 class="text-danger" id ="soRap">...</h3>
                 <p><b>Rạp</b></p>
             </div>
         </a>
@@ -28,7 +28,7 @@
     <div class="col-md-3 mb-3">
         <a href="/Admin/NguoiDung" class="text-decoration-none">
             <div class="p-4 shadow bg-light rounded hover-card">
-                <h3 class="text-danger">@ViewBag.SoNguoiDung</h3>
+                <h3 class="text-danger" id="soNguoiDung"></h3>
                 <p><b>Người dùng</b></p>
             </div>
         </a>
@@ -37,7 +37,7 @@
     <div class="col-md-3 mb-3">
         <a href="/Admin/DonHang" class="text-decoration-none">
             <div class="p-4 shadow bg-light rounded hover-card">
-                <h3 class="text-danger">@ViewBag.SoDonHang</h3>
+                <h3 class="text-danger" id="soDonHang"></h3>
                 <p><b>Đơn hàng</b></p>
             </div>
         </a>
@@ -50,7 +50,7 @@
     <div class="col-12">
         <h3 class="mb-3">Quản lý</h3>
         <div class="row g-3">
-            
+
             <!-- Quản lý Phim -->
             <div class="col-md-4 col-sm-6">
                 <div class="card shadow-sm h-100">
@@ -158,3 +158,27 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $.get("/api/ThongKe/SoPhim", function (data) {
+            $("#soPhim").text(data.SoPhim);
+        });
+
+        $.get("/api/ThongKe/SoRap", function (data) {
+            $("#soRap").text(data.SoRap);
+        });
+
+        $.get("/api/ThongKe/SoNguoiDung", function (data) {
+            $("#soNguoiDung").text(data.SoNguoiDung);
+        });
+
+        $.get("/api/ThongKe/SoDonHang", function (data) {
+            $("#soDonHang").text(data.SoDonHang);
+        });
+
+    });
+</script>
