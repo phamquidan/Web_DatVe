@@ -20,13 +20,8 @@
         <!-- Thể loại -->
         <div class="col-md-4">
             <label>Thể loại</label>
-            <select name="theloai" class="form-select">
+            <select id="theLoaiSelect" name="theloai" class="form-select">
                 <option value="">Tất cả</option>
-                @foreach (var tl in theLoaiList)
-                {
-                    var isSelected = string.Equals(Request["theloai"], tl as string, StringComparison.OrdinalIgnoreCase);
-                    <option value="@tl" @(isSelected ? "selected=\"selected\"" : "")>@tl</option>
-                }
             </select>
         </div>
 
@@ -76,3 +71,32 @@
         </div>
     }
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        let selected = "@Request["theloai"]";   // giữ lựa chọn sau khi lọc
+
+        $.get("/api/theloai/list", function (data) {
+
+            data.forEach(function (tl) {
+                let opt = $("<option>", {
+                    value: tl,
+                    text: tl
+                });
+
+                if (tl === selected) {
+                    opt.attr("selected", "selected");
+                }
+
+                $("#theLoaiSelect").append(opt);
+            });
+
+        }).fail(function (err) {
+            console.log("Lỗi load thể loại:", err);
+        });
+
+    });
+</script>
