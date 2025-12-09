@@ -11,6 +11,13 @@ namespace Web_DatVe.Controllers
     {
         public QL_DatVeXemPhimEntities1 db = new QL_DatVeXemPhimEntities1();
 
+        public PhimAPIController()
+        {
+            // Tắt proxy/lazy để tránh vòng tham chiếu khi serialize
+            db.Configuration.ProxyCreationEnabled = false;
+            db.Configuration.LazyLoadingEnabled = false;
+        }
+
         [HttpGet]
         [Route("api/ping")]
         public IHttpActionResult Ping()
@@ -22,7 +29,23 @@ namespace Web_DatVe.Controllers
         [Route("api/phim/getall")]
         public IHttpActionResult GetAll()
         {
-            return Ok(db.PHIMs.ToList());
+            // Chỉ trả về các trường cần thiết để tránh vòng lặp và tràn khi serialize
+            var data = db.PHIMs
+                .Select(p => new
+                {
+                    p.MaPhim,
+                    p.TenPhim,
+                    p.TheLoai,
+                    p.ThoiLuong,
+                    p.NgayKhoiChieu,
+                    p.Poster,
+                    p.QuocGia,
+                    p.Trailer,
+                    p.MoTa
+                })
+                .ToList();
+
+            return Ok(data);
         }
 
         [HttpGet]

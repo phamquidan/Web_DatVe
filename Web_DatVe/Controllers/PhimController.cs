@@ -11,7 +11,7 @@ namespace Web_DatVe.Controllers
     {
         QL_DatVeXemPhimEntities1 db = new QL_DatVeXemPhimEntities1();
 
-        public ActionResult Index(string search, string theloai, int? nam, string quocgia)
+        public ActionResult Index(string search, string theloai, int? nam, string quocgia, int page = 1, int pageSize = 12)
         {
             var ds = db.PHIMs.AsQueryable();
 
@@ -48,7 +48,31 @@ namespace Web_DatVe.Controllers
                 .OrderBy(x => x)
                 .ToList();
 
-            return View(ds.ToList());
+            // Phân trang
+            var pagedResult = GetPaged(ds.OrderByDescending(x => x.NgayKhoiChieu), page, pageSize);
+            
+            // Giữ lại các tham số filter trong ViewBag để hiển thị lại trong form
+            ViewBag.Search = search;
+            ViewBag.TheLoai = theloai;
+            ViewBag.Nam = nam;
+            ViewBag.QuocGia = quocgia;
+
+            return View(pagedResult);
+        }
+
+        private PagingModel<PHIM> GetPaged(IQueryable<PHIM> query, int pageNumber, int pageSize)
+        {
+            var result = new PagingModel<PHIM>();
+
+            result.CurrentPage = pageNumber;
+            result.PageSize = pageSize;
+            result.RowCount = query.Count();
+            var pageCount = (double)result.RowCount / pageSize;
+            result.PageCount = (int)Math.Ceiling(pageCount);
+            var skip = (pageNumber - 1) * pageSize;
+            result.Results = query.Skip(skip).Take(pageSize).ToList();
+
+            return result;
         }
 
         public ActionResult ChiTiet(int id)

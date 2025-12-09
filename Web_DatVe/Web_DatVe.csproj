@@ -215,6 +215,7 @@
     </Compile>
     <Compile Include="Models\ViewModels\HomeVM.cs" />
     <Compile Include="Models\ViewModels\MovieDetailVM.cs" />
+    <Compile Include="Models\ViewModels\PagingModel.cs" />
     <Compile Include="Models\ViewModels\RapDetailVM.cs" />
     <Compile Include="Models\ViewModels\SeatMapVM.cs" />
     <Compile Include="Models\ViewModels\RevenueStatsVM.cs" />

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Web_DatVe.Models.PHIM>
+﻿@model Web_DatVe.Models.ViewModels.PagingModel<Web_DatVe.Models.PHIM>
 @using System
 @using System.Collections.Generic
 @using System.Linq
@@ -16,6 +16,14 @@
 <!-- BỘ LỌC PHIM -->
 <div class="filter-box p-3 mb-4">
     <form method="get" class="row g-3">
+        <!-- Ẩn tham số page khi submit form (reset về trang 1) -->
+        <input type="hidden" name="page" value="1" />
+
+        <!-- Tìm kiếm -->
+        <div class="col-md-12 mb-3">
+            <label>Tìm kiếm</label>
+            <input type="text" name="search" class="form-control" placeholder="Nhập tên phim..." value="@ViewBag.Search" />
+        </div>
 
         <!-- Thể loại -->
         <div class="col-md-4">
@@ -52,7 +60,8 @@
         </div>
 
         <div class="col-md-12 text-end">
-            <button class="btn btn-danger px-4">Lọc phim</button>
+            <button type="submit" class="btn btn-danger px-4">Lọc phim</button>
+            <a href="/Phim" class="btn btn-outline-secondary px-4">Xóa bộ lọc</a>
         </div>
 
     </form>
@@ -60,7 +69,7 @@
 
 <!-- DANH SÁCH PHIM -->
 <div class="movie-grid">
-    @foreach (var p in Model)
+    @foreach (var p in Model.Results)
     {
         <div class="movie-card">
             <img src="@Url.Content("~/Content/images/" + p.Poster)" alt="@p.TenPhim" />
@@ -72,12 +81,114 @@
     }
 </div>
 
+@if (Model.Results.Count == 0)
+{
+    <div class="alert alert-info text-center mt-4">
+        <p>Không tìm thấy phim nào.</p>
+    </div>
+}
+
+<!-- PHÂN TRANG -->
+@if (Model.PageCount > 1)
+{
+    <nav aria-label="Phân trang" class="mt-4">
+        <ul class="pagination justify-content-center">
+            @{
+                int currentPage = Model.CurrentPage;
+                int totalPages = Model.PageCount;
+                string search = ViewBag.Search as string ?? "";
+                string theloai = ViewBag.TheLoai as string ?? "";
+                int? nam = ViewBag.Nam as int?;
+                string quocgia = ViewBag.QuocGia as string ?? "";
+
+                // Nút Previous
+                if (currentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="?page=@(currentPage - 1)&search=@search&theloai=@theloai&nam=@nam&quocgia=@quocgia">Trước</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">Trước</span>
+                    </li>
+                }
+
+                // Hiển thị số trang
+                int startPage = Math.Max(1, currentPage - 2);
+                int endPage = Math.Min(totalPages, currentPage + 2);
+
+                if (startPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1&search=@search&theloai=@theloai&nam=@nam&quocgia=@quocgia">1</a>
+                    </li>
+                    if (startPage > 2)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+                }
+
+                for (int i = startPage; i <= endPage; i++)
+                {
+                    if (i == currentPage)
+                    {
+                        <li class="page-item active">
+                            <span class="page-link">@i</span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="?page=@i&search=@search&theloai=@theloai&nam=@nam&quocgia=@quocgia">@i</a>
+                        </li>
+                    }
+                }
+
+                if (endPage < totalPages)
+                {
+                    if (endPage < totalPages - 1)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href="?page=@totalPages&search=@search&theloai=@theloai&nam=@nam&quocgia=@quocgia">@totalPages</a>
+                    </li>
+                }
+
+                // Nút Next
+                if (currentPage < totalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="?page=@(currentPage + 1)&search=@search&theloai=@theloai&nam=@nam&quocgia=@quocgia">Sau</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">Sau</span>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+
+    <div class="text-center text-muted mt-2">
+        <small>Trang @Model.CurrentPage / @Model.PageCount - Tổng @Model.RowCount phim</small>
+    </div>
+}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function () {
 
-        let selected = "@Request["theloai"]";   // giữ lựa chọn sau khi lọc
+        let selected = "@(ViewBag.TheLoai ?? "")";   // giữ lựa chọn sau khi lọc
 
         $.get("/api/theloai/list", function (data) {
 
